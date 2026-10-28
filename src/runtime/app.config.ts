@@ -35,7 +35,7 @@ export default {
     },
   },
   commands: {
-    'classic-videoplayer': (app: IApplicationController, args: any) => {
+    'classic-videoplayer': (app: any, args: any) => {
       const path = args._[1];
       const autoplay = args.autoplay
       const loop = args.loop

@@ -1,5 +1,5 @@
 {
-  "name": "@owdproject/app-classic-videoplayer-playground",
+  "name": "@owdproject/app-nuxt-classic-videoplayer-playground",
   "private": true,
   "type": "module",
   "scripts": {
@@ -9,9 +9,9 @@
   },
   "dependencies": {
     "@owdproject/core": "^4.0.0-alpha.3",
-    "@owdproject/app-classic-videoplayer": "workspace:*",
+    "@owdproject/app-nuxt-classic-videoplayer": "workspace:*",
     "nuxt": "^4.4.6",
-    "@owdproject/module-fs": "^4.0.0-alpha.3",
-    "@owdproject/theme-nova": "^4.0.0-alpha.3"
+    "@owdproject/module-nuxt-fs": "^4.0.0-alpha.3",
+    "@owdproject/theme-nuxt-nova": "^4.0.0-alpha.3"
   }
 }

@@ -1,59 +1,43 @@
 <script setup lang="ts">
-import { fs } from '@zenfs/core'
 import { useI18n } from 'vue-i18n'
-import { getFilename } from '@owdproject/module-fs/runtime/utils/utilFileSystem'
 import { ref } from 'vue'
 
 const props = defineProps<{
-  window: Window
+  window: any
 }>()
 
 const { t } = useI18n()
 
-const filePath = loadVideoUrl(props.window.meta.path)
-const title = ref(getFilename(props.window.meta.path))
-
-props.window.setTitleOverride(title)
-
-function loadVideoUrl(pathString: string) {
-  if (!pathString) {
-    return
-  }
-
-  if (pathString.startsWith('http')) {
-    return pathString
-  }
-
+function extractFilename(path?: string): string {
+  if (!path) return ''
   try {
-    const buffer = fs.readFileSync(pathString)
-    const lastDotIndex = pathString.lastIndexOf('.')
-    const lastSlashIndex = pathString.lastIndexOf('/')
-    let ext = ''
-    if (lastDotIndex > lastSlashIndex) {
-      ext = pathString.substring(lastDotIndex).toLowerCase()
-    }
-
-    let mimeType
-
-    switch (ext) {
-      case '.mp4':
-        mimeType = 'video/mp4'
-        break
-      case '.webm':
-        mimeType = 'video/webm'
-        break
-      default:
-        console.warn(`File is not supported: ${ext}`)
-        return
-    }
-
-    const blob = new Blob([buffer], { type: mimeType })
-    return URL.createObjectURL(blob)
-  } catch (err) {
-    console.error('Error while loading the audio', err)
-    return
+    const url = new URL(path)
+    return url.pathname.split('/').filter(Boolean).pop() || path
+  } catch {
+    return path.split('/').filter(Boolean).pop() || path
   }
 }
+
+const videoPath = (props.window?.meta?.path || props.window?.meta?.url) as string | undefined
+const title = ref((props.window?.meta?.title as string | undefined) || extractFilename(videoPath))
+
+if (props.window?.setTitleOverride) {
+  props.window.setTitleOverride(title)
+} else if (props.window?.actions?.setTitleOverride) {
+  props.window.actions.setTitleOverride(title.value)
+}
+
+function loadVideoUrl(pathString?: string): string | undefined {
+  if (!pathString) return undefined
+
+  if (props.window?.meta?.blob instanceof Blob) {
+    return URL.createObjectURL(props.window.meta.blob)
+  }
+
+  return pathString
+}
+
+const filePath = loadVideoUrl(videoPath)
 </script>
 
 <template>

@@ -1,14 +1,14 @@
 import { defineDesktopConfig } from '@owdproject/nuxt'
 
 export default defineDesktopConfig({
-  theme: '@owdproject/theme-nuxt-nova',
-  apps: ['@owdproject/app-nuxt-classic-videoplayer'],
-  modules: ['@owdproject/module-nuxt-fs'],
+  theme: '@owdproject/nuxt-theme-nova',
+  apps: ['@owdproject/nuxt-app-classic-videoplayer'],
+  modules: ['@owdproject/nuxt-module-fs'],
   systemBar: { enabled: true, startButton: true },
   about: {
     title: 'Video Player (playground)',
     subtitle: 'app-classic-videoplayer · theme-nova',
-    href: 'https://github.com/owdproject/app-classic-videoplayer',
+    href: 'https://github.com/owdproject/nuxt-app-classic-videoplayer',
     versionText: 'Nuxt Desktop',
     icons: [
       {
